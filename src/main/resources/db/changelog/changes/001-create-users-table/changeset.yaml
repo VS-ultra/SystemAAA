@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-create-users-table
+      author: VS-ultra (Vlad Sevachev)
+      comment: Create table users
+      changes:
+        - sqlFile:
+            path: db/changelog/changes/001-create-users-table/create-users-table.sql
