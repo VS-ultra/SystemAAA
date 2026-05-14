@@ -1,21 +1,47 @@
 spring:
   application:
     name: systemaaa
+
   jpa:
     show-sql: true
     properties:
       hibernate:
         format_sql: true
         highlight_sql: true
+
   datasource:
     url: ${JDBC_URL}
     username: ${POSTGRES_USER}
     password: ${POSTGRES_PASSWORD}
 
+  mail:
+    host: ${MAIL_HOST}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            scope:
+              - email
+              - profile
+
+app:
+  base-url: ${APP_BASE_URL:http://localhost:8080}
+  frontend-url: ${FRONTEND_URL:http://localhost:3000}
+
 jwt:
   secret: ${JWT_SECRET}
-  expiration: 86400000
-
+  expiration: 900000
+  refresh-expiration-days: 7
 
 logging:
   level:

@@ -16,13 +16,15 @@ public class UserDetailsImpl implements UserDetails {
     private String username;
     private String email;
     private String password;
+    private boolean enabled;  // ← добавлено поле
 
     public static UserDetailsImpl build(User user) {
         return new UserDetailsImpl(
                 user.getId(),
                 user.getUsername(),
                 user.getEmail(),
-                user.getPassword());
+                user.getPassword(),
+                user.isEnabled());  // ← передаём значение из User
     }
 
     @Override
@@ -32,16 +34,16 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getPassword() {
-        return password; // было: return ""
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return username; // было: return ""
+        return username;
     }
 
     @Override public boolean isAccountNonExpired()     { return true; }
     @Override public boolean isAccountNonLocked()      { return true; }
     @Override public boolean isCredentialsNonExpired() { return true; }
-    @Override public boolean isEnabled()               { return true; }
+    @Override public boolean isEnabled()               { return enabled; }  // ← теперь возвращает поле, не user
 }

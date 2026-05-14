@@ -14,5 +14,7 @@ public class User {
     private String username;
     private String email;
     private String password;
+    private boolean enabled = false;
+    private String provider = "local"; // google, github, etc.
 
 }

@@ -2,6 +2,8 @@ package org.dev.systemaaa.config;
 
 import lombok.RequiredArgsConstructor;
 import org.dev.systemaaa.jwt.TokenFilter;
+import org.dev.systemaaa.model.security.OAuth2AuthenticationSuccessHandler;
+import org.dev.systemaaa.service.OAuth2UserServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -28,10 +30,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SecurityConfigurator {
 
-    // PasswordEncoder теперь живёт в PasswordEncoderConfig — цикл разорван
     private final UserDetailsService userDetailsService;
     private final TokenFilter tokenFilter;
     private final PasswordEncoder passwordEncoder;
+    private final OAuth2UserServiceImpl oAuth2UserService;                      // ← новое
+    private final OAuth2AuthenticationSuccessHandler successHandler;            // ← новое
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
@@ -67,11 +70,16 @@ public class SecurityConfigurator {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/oauth2/**", "/login/oauth2/**").permitAll()  // ← новое
                         .requestMatchers("/secured/**").authenticated()
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider())
-                .addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class)
+                .oauth2Login(oauth2 -> oauth2                                           // ← новое
+                        .userInfoEndpoint(info -> info.userService(oAuth2UserService))
+                        .successHandler(successHandler)
+                );
 
         return http.build();
     }
