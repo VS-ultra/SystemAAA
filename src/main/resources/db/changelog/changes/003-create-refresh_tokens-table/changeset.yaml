@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: 003-create-refresh_tokens-table
+      author: VS-ultra (Vlad Sevachev)
+      comment: Create table refresh_tokens for JWT refresh token storage
+      changes:
+        - sqlFile:
+            path: db/changelog/changes/003-create-refresh_tokens-table/create-refresh_tokens.sql

@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: 002-create-verigication_tokens-table
+      author: VS-ultra (Vlad Sevachev)
+      comment: Create table verification_tokens
+      changes:
+        - sqlFile:
+            path: db/changelog/changes/002-create-verification_tokens-table/create-verification_tokens.sql
