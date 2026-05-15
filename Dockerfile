@@ -25,9 +25,6 @@ USER appuser
 
 EXPOSE 8080
 
-# -XX:+UseContainerSupport     — JVM читает лимиты контейнера, не хоста
-# -XX:MaxRAMPercentage=75.0    — 75% выделенной памяти под heap
-# -Djava.security.egd          — ускоряет генерацию случайных чисел (JWT)
 ENTRYPOINT ["java", \
   "-XX:+UseContainerSupport", \
   "-XX:MaxRAMPercentage=75.0", \

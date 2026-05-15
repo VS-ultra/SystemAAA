@@ -36,9 +36,12 @@ public class SecurityConfigurator {
     private final OAuth2UserServiceImpl oAuth2UserService;                      // ← новое
     private final OAuth2AuthenticationSuccessHandler successHandler;            // ← новое
 
+
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
-        return new DaoAuthenticationProvider(userDetailsService);
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider(userDetailsService);
+        provider.setPasswordEncoder(passwordEncoder);
+        return provider;
     }
 
     @Bean
